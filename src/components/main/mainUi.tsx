@@ -16,7 +16,9 @@ const MainUi:React.FC=()=>{
         const fetchApiData = async ()=>{
             try {
             const response = await fetch(` https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${API_KEY} `);
-            console.log(response);
+            if(response.status !== 200){
+                throw new Error("Something gone wrong!...");
+            }
             const data = await response.json();
             console.log(data.articles);
             setNewsList(data.articles);
@@ -46,7 +48,7 @@ const MainUi:React.FC=()=>{
         )
     }
     if(error){
-        return <h2>There is something wrong at Data Fetching</h2>;
+        return <h2 className="text-red-500">There is something wrong!..</h2>;
     }
     if(newsList.length === 0){
         return <h2>Got the response. but didn't get full data</h2>
